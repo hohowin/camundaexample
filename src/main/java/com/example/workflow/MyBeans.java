@@ -9,6 +9,6 @@ public class MyBeans {
 
     @Bean
     public JavaDelegate ahoyService() {
-        return execution -> System.out.println("\n\nAhoy" + execution.getVariable("myVariable") + "!");
+        return execution -> System.out.println("\n\nAhoy " + execution.getVariable("myVariable") + "!");
     }
 }
