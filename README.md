@@ -14,9 +14,11 @@ docker-compose up -d
 
 4\. Click on `Task List -> Start Process -> 'The Ahoy Process' -> Add a variable -> Type in variable name myVariable and enter a value`
 
-5\. Click Start
+5\. Click Start to start the process instance
 
-6\. Check out the Console login
+6\. It is going to wait for the response at `User Task 1` and `User Task 3`. To complete the user tasks, go to `Tasklist` and claim and complete the task.
+
+6\. Check out the Console for the output from `System Task 2`.
 
 ## Check tables
 
