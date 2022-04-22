@@ -1,4 +1,4 @@
-package com.camundacon.workshop;
+package com.example.workflow;
 
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.context.annotation.Bean;
