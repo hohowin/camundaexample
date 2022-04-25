@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0kqzciq" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
+  <bpmn:process id="kafkaProcess" name="Kafka Process" isExecutable="true">
+    <bpmn:startEvent id="startEvent" name="Start Event">
+      <bpmn:outgoing>Flow_1hkrciw</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1hkrciw" sourceRef="startEvent" targetRef="Gateway_1j44loy" />
+    <bpmn:endEvent id="endEvent" name="End Event">
+      <bpmn:incoming>Flow_09idonb</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="serviceTask6" name="Service Task 6" camunda:asyncBefore="true" camunda:delegateExpression="${sendKafka}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R3/PT5S</camunda:failedJobRetryTimeCycle>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0yypoob</bpmn:incoming>
+      <bpmn:outgoing>Flow_05plsi7</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:receiveTask id="waitTask8" name="Wait Task 8" messageRef="Message_2u5va9n">
+      <bpmn:incoming>Flow_1vio47q</bpmn:incoming>
+      <bpmn:outgoing>Flow_0cf11m2</bpmn:outgoing>
+    </bpmn:receiveTask>
+    <bpmn:sequenceFlow id="Flow_0yypoob" sourceRef="Gateway_1j44loy" targetRef="serviceTask6" />
+    <bpmn:parallelGateway id="Gateway_1j44loy">
+      <bpmn:incoming>Flow_1hkrciw</bpmn:incoming>
+      <bpmn:outgoing>Flow_0yypoob</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1vio47q</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="Flow_1vio47q" sourceRef="Gateway_1j44loy" targetRef="waitTask8" />
+    <bpmn:sequenceFlow id="Flow_0cf11m2" sourceRef="waitTask8" targetRef="Gateway_0cqburs" />
+    <bpmn:parallelGateway id="Gateway_0cqburs">
+      <bpmn:incoming>Flow_0cf11m2</bpmn:incoming>
+      <bpmn:incoming>Flow_05plsi7</bpmn:incoming>
+      <bpmn:outgoing>Flow_09idonb</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="Flow_05plsi7" sourceRef="serviceTask6" targetRef="Gateway_0cqburs" />
+    <bpmn:sequenceFlow id="Flow_09idonb" sourceRef="Gateway_0cqburs" targetRef="endEvent" />
+  </bpmn:process>
+  <bpmn:message id="Message_2u5va9n" name="Message_KafkaReceived" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="kafkaProcess">
+      <bpmndi:BPMNEdge id="Flow_1hkrciw_di" bpmnElement="Flow_1hkrciw">
+        <di:waypoint x="215" y="187" />
+        <di:waypoint x="255" y="187" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yypoob_di" bpmnElement="Flow_0yypoob">
+        <di:waypoint x="280" y="162" />
+        <di:waypoint x="280" y="120" />
+        <di:waypoint x="340" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vio47q_di" bpmnElement="Flow_1vio47q">
+        <di:waypoint x="280" y="212" />
+        <di:waypoint x="280" y="260" />
+        <di:waypoint x="340" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0cf11m2_di" bpmnElement="Flow_0cf11m2">
+        <di:waypoint x="440" y="260" />
+        <di:waypoint x="500" y="260" />
+        <di:waypoint x="500" y="205" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05plsi7_di" bpmnElement="Flow_05plsi7">
+        <di:waypoint x="440" y="120" />
+        <di:waypoint x="500" y="120" />
+        <di:waypoint x="500" y="155" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09idonb_di" bpmnElement="Flow_09idonb">
+        <di:waypoint x="525" y="180" />
+        <di:waypoint x="582" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="startEvent">
+        <dc:Bounds x="179" y="169" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="170" y="212" width="55" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1brz60c_di" bpmnElement="Gateway_1j44loy">
+        <dc:Bounds x="255" y="162" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1h337ck_di" bpmnElement="serviceTask6">
+        <dc:Bounds x="340" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1gzhrkx_di" bpmnElement="waitTask8">
+        <dc:Bounds x="340" y="220" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0iif9xy_di" bpmnElement="Gateway_0cqburs">
+        <dc:Bounds x="475" y="155" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ns65xl_di" bpmnElement="endEvent">
+        <dc:Bounds x="582" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="575" y="205" width="51" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
