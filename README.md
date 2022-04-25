@@ -22,6 +22,8 @@ docker-compose up -d
 
 8\. Check Cockpit for any pending process
 
+`Note: For the Kafka Workflow, you must put "bus" as the buinsess key for the message correlation to work.`
+
 ## Check tables
 
 Check the connection information in `src/main/resources/application.yaml`
